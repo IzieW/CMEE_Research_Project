@@ -1,0 +1,38 @@
+#!/usr/bin/Rscript --vanilla
+require(tidyverse)
+# Script to test out calculating K_means with my naive_B data
+#EXAMPLE FROM THING
+data <- data.frame(rbind(
+  cbind(rnorm(50),rnorm(50)),
+  cbind(rnorm(50,2.5),rnorm(50,2.5)),
+  cbind(rnorm(50,-2.5),rnorm(50,-2.5)),
+  cbind(rnorm(50,5), rnorm(50,5)),
+  cbind(rnorm(50,-5), rnorm(50,-5))
+))
+data$groups <- rep(c("red","blue","grey80","grey60","grey20"), each=50)
+names(data)[1:2] <- c("x","y")
+
+#plot(x~y, data=data)
+
+k.means <- kmeans(data[,-3], centers=5, nstart=10)
+table(k.means$cluster, data$groups)
+
+df <- read.csv("../results/naive_nutrient_B.csv", stringsAsFactors = T)
+df <- filter(df, snap_centroid_x !=0 )
+
+
+#test.k <- kmeans(df[35:40], centers=5, nstart=50)
+
+ind <- data.frame(colnames(df))
+
+theta = df[2:5]
+
+morpho_only = df[c(23:34)]
+
+relevant_columns = df[c(2:5,23:34)]
+
+
+## First try with just mass and volume
+k.mass <- kmeans(df[c(23, 25)], centers=5, nstart=1000)
+
+

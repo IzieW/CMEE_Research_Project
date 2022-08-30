@@ -1,0 +1,15 @@
+df <- read.csv("../results/naive_B_means.csv", stringsAsFactors = T)
+
+cor.test(df$survival_time, df$N, use="pairwise")
+
+cor.test(df$survival_time, df$correlation_length, use="pairwise")
+
+cor.test(df$survival_time, df$correlation_time, use="pairwise")
+
+#df$correlation_length <- as.factor(df$correlation_length)
+
+model <- lm(survival_time~ correlation_length, data=df)
+
+df2 <- read.csv("../results/naive_nutrient_B.csv", stringsAsFactors = T)
+
+cor.test(df2$T, df2$correlation_time, use="pairwise")

@@ -1,0 +1,11 @@
+# !/usr/env/Rscript --Vanilla
+
+require(tidyverse)
+
+df <- read.csv("../results/naive_A_means.csv", stringsAsFactors = TRUE)
+
+inds = as.data.frame(colnames(df)) # get indexes
+
+# overview
+seededlm <- lm(survival_time~seed, data=df)
+seed_anova <- anova(seededlm) # yes - still more variance between different evolutions

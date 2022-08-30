@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+
+# FILE TO READ IN RESULTS FROM NAIVE_B AND ANALYSE STATISTICALLY
+
+# Load data
+times <- read.csv("../results/naive_B_means.csv", stringsAsFactors = T)
+df <- read.csv("../results/naive_nutrient_A.csv", stringsAsFactors = T)
+counts <- read.csv("../results/naive_A_solution_count.csv", stringsAsFactors = T)
+t <- read.csv("../results/naive_A_counts_by_solution.csv")
+
+
+##### SOLUTION COUNTS ####
+
+# 1) Number of solutions across population size
+cor.test(counts$N, counts$N_solutions)
+
+# 2) Number of solutions across correlation_length
+cor.test(counts$correlation_length, counts$N_solutions)
+
+# 3) Number of solutions across correlation_time
+cor.test(counts$correlation_time, counts$N_solutions)
+
+# 4) Linear model
+model <- lm(counts$N_solutions~counts$N+counts$correlation_length)
+model <- lm(counts$N_solutions~counts$correlation_time*counts$correlation_length)
+
+model <- lm(counts$N_solutions~counts$correlation_length*counts$correlation_time)
+
+##### SURVIVAL TIME #######
+# 1) Survival time by enviro
+cor.test(df$survival_mean, df$N)
+cor.test(df$survival_mean, df$correlation_length)
+cor.test(df$survival_mean, df$correlation_time)
+
+model <- lm(df$survival_mean~df$N*df$correlation_length)
+
+model <- lm(df$survival_mean~df$correlation_length*df$correlation_time)
+
+
+# 2) Survival time by parameters
+cor.test(df$survival_mean, df$R)
+cor.test(df$survival_mean, df$T)
+cor.test(df$survival_mean, df$m)
+cor.test(df$survival_mean, df$s)
+
+cor(df[3:6], df$survival_mean)
+
+# 3) Survival time by forms 
+model <- lm(df$survival_mean~ df$qualitative)
+
+
+###### Parameters by enviro #########
+cor(df[c(3:6, 15:16,19)], use="pairwise")
+
+cor.test(df$T, df$correlation_length)
+cor.test(df$T, df$N)
+
+
+
+## PARAMETERS BETWEEN FORMS
+d1 <- filter(df, df$qualitative=="slow_sensing")
+d2 <- filter(df, df$qualitative!="slow_sensing")
+t.test(d1$R, mu=13)
+t.test(d1$T, mu=10)
+t.test(d1$m, mu=0.15)
+t.test(d1$s, mu=0.015)
+
+
+### Form by count by enviro
+d <- filter(t, t$qualitative=="slow_sensing")
+cor.test(d$N, d$count)$p.value < 0.05
+cor.test(d$L, d$count)$p.value < 0.05
+cor.test(d$T, d$count)$p.value < 0.05
+
+cor.test(d$N, d$count)
+cor.test(d$L, d$count)
+cor.test(d$T, d$count)
+
+##### CORRELATION BETWEEN PARAMETERS ####
+get_cor <- function(dat=df){
+  theta <- c("R", "T", "m", "s")
+  d <- data.frame(theta, 
+                  get_cor_parameters_l(dat),
+                  get_cor_parameters_t(dat))
+  colnames(d) <- c("parameter", "correlation_length", "correlation_time")
+  
+  return(d)
+}
+

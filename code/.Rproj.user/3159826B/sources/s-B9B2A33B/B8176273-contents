@@ -1,0 +1,42 @@
+# !/usr/bin/Rscript --Vanilla
+# Basic hypothesis testing etc. 
+
+## Load data ##
+genome <- read.csv("../../../Stats/data/GenomeSize.csv", stringsAsFactors=T)
+genome$logGS <- log(genome$GenomeSize)
+genome$logBW <- log(genome$BodyWeight)
+genome$logTL <- log(genome$TotalLength)
+genome$logFL <- log(genome$ForewingLength)
+genome$logFA <- log(genome$ForewingArea)
+## HYPOTHESIS TESTING
+
+# Is mean genome size for dragon flies smaller than the average
+# insect at 1.25? Use a one-way ttest to calculate significant different
+
+t.test(df$GenomeSize, mu=1.25)
+
+# Can get confidence intervals like so
+tlim <- qt(c(0.025, 0.975), df=99)
+
+# Is there a difference between GenomeSize
+# in two suborders? Use two_way ttest
+t.test(GenomeSize ~ Suborder, data=df)  # no sigificant difference
+
+# Do the two suborders have equal variance?
+# Use Ftest to compare variance
+var.test(GenomeSize ~ Suborder, data=df)  # quite a big F value, the variance is not the same
+
+## CORRELATION COEFFICIENT
+pairs(df) # plot pairwise correlations
+pairs(df[, c(4,7,8,12,14)], col=df$Suborder)  # plot only a few pairs
+
+# Get pairwaise correlation coefficients
+cor(df[, c(4,7,8,12,14)], use="pairwise")
+
+cor.test(df$GenomeSize, df$TotalLength, use="pairwise")
+cor.
+
+#### LINEAR REGRESSION  ####
+genomesizemodel <- lm()
+
+
