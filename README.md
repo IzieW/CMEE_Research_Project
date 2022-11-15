@@ -1,7 +1,7 @@
 # Sensing in self-organising systems: Exploring the evolutionary conditions for the emergence of "sensing" behaviours in Lenia cellular automata. 
 This repo contains all the code and data involved in my Msci Computational Methods in Ecology and Evolution research project. 
 
-![](https://github.com/IzieW/CMEE_Research_Project/blob/master/gifs/weak_sensing_B_464.gif)
+![orbium (green) demonstrates "weak sensing" behaviour as it turns trajectory to maximise overlap with nutrient peaks (blue)](https://github.com/IzieW/CMEE_Research_Project/blob/master/gifs/weak_sensing_B_464.gif)
 
 Cellular automata (CA) represent promising candidates for studying the origins of life and mind as autonomous, self-assembling dynamical systems. Bert Chan's "Lenia" is a variety of smooth, semi-continuous cellular automata, capable of producing a wide range of interesting behaviours and morphologies. Recently, the flower's lab has used machine learning to produce Lenia life forms capable of avoidance behaviours. After optimisation, these novel artificial life forms are able to successfully navigate a field of obstacles. 
 
